@@ -1,0 +1,11 @@
+{
+    "directory": "./tmp_path",
+    "rename_file": {
+        "acc": "account",
+        "Acc": "Account"
+    },
+    "replace_content": {
+        "acc": "account",
+        "Acc": "Account"
+    }
+}
