@@ -1,0 +1,25 @@
+# .gitignore
+
+# Ignore OS generated files
+.DS_Store
+Thumbs.db
+
+# Ignore editor and IDE files
+*.sublime-*
+*.swp
+*.swo
+.vscode/
+
+# Ignore PHP related files and directories
+/vendor/
+composer.lock
+.env
+
+# Ignore PHPUnit related files
+/phpunit.xml
+/test-reports/
+
+# Ignore temporary and cache files
+/tmp/
+/cache/
+*.log
