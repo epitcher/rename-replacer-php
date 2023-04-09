@@ -24,3 +24,5 @@ composer.phar
 /tmp/
 /cache/
 *.log
+
+/tmp_path
