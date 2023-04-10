@@ -1,5 +1,7 @@
 # Directory Renamer and File Content Replacer
 
+[![phpunit](https://github.com/epitcher/rename-replacer-php/actions/workflows/php.yml/badge.svg)](https://github.com/epitcher/rename-replacer-php/actions/workflows/php.yml)
+
 **Disclaimer: This is a translation of [rename-replacer](https://github.com/epitcher/rename-replacer) which I threw together, I would heavily recommend using the original.** 
 
 This is a php script which can **rename files**, **rename directories** and **replace text** within files in a configured path and its subdirectories, based on key-value pairs that you specify in a JSON configuration file.
