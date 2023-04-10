@@ -1,6 +1,6 @@
 <?php
 
-include __DIR__ . '/RenameReplacer.php';
+include __DIR__ . '/src/RenameReplacer.php';
 
 use epitcher\RenameReplacer;
 

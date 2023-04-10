@@ -1,13 +1,19 @@
 <?php
 
-include __DIR__ . '/../RenameReplacer.php';
+include __DIR__ . '/../src/RenameReplacer.php';
 
 use epitcher\RenameReplacer;
 use PHPUnit\Framework\TestCase;
 
 class RenameReplacerTest extends TestCase
 {
+    /**
+     * @var array<mixed> $config
+     */
     private $config;
+    /**
+     * @var RenameReplacer $renameReplacer
+     */
     private $renameReplacer;
 
     protected function setUp(): void
@@ -24,7 +30,7 @@ class RenameReplacerTest extends TestCase
         $this->renameReplacer = new RenameReplacer($this->config);
     }
 
-    public function testRenameDirectory()
+    public function testRenameDirectory() : void
     {
         // Prepare test directory
         $oldDir = 'tmp_path/old_dir';
@@ -40,7 +46,7 @@ class RenameReplacerTest extends TestCase
         rmdir($newDir);
     }
 
-    public function testRenameFile()
+    public function testRenameFile(): void
     {
         // Prepare test file
         $root = 'tmp_path';
@@ -55,7 +61,7 @@ class RenameReplacerTest extends TestCase
         unlink($root . DIRECTORY_SEPARATOR . $newFile);
     }
 
-    public function testReplaceText()
+    public function testReplaceText() : void
     {
         // Prepare test file
         $root = 'tmp_path';

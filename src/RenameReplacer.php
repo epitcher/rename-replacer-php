@@ -4,14 +4,20 @@ namespace epitcher;
 
 class RenameReplacer
 {
-    private $config;
+    /**
+     * @var array<mixed> $config
+     */
+    private array $config;
 
-    public function __construct($config)
+    /**
+     * @param array<mixed> $config
+     */
+    public function __construct(array $config)
     {
         $this->config = $config;
     }
 
-    public function get_confirmation()
+    public function get_confirmation() : bool
     {
         echo "WARNING: This script is potentially destructive and may irreversibly modify files in the specified directory and its subdirectories. Do you want to continue?\n";
         echo "We recommend version control be enabled prior to running\n";
@@ -20,7 +26,7 @@ class RenameReplacer
         return strtolower($response) == 'y';
     }
 
-    public function process_directory($dir)
+    public function process_directory(string $dir) : void
     {
         if(empty($dir)) {
             return;
@@ -43,7 +49,7 @@ class RenameReplacer
         }
     }
 
-    public function rename_directory($root)
+    public function rename_directory(string $root) : string
     {
         foreach ($this->config['rename_file'] as $key => $value) {
             if (strpos(basename($root), $key) !== false) {
@@ -55,7 +61,7 @@ class RenameReplacer
         return $root;
     }
 
-    public function rename_file($root, $filename)
+    public function rename_file(string $root, string $filename) : string
     {
         foreach ($this->config['rename_file'] as $key => $value) {
             if (strpos($filename, $key) !== false) {
@@ -67,7 +73,7 @@ class RenameReplacer
         return $filename;
     }
 
-    public function replace_text($root, $filename)
+    public function replace_text(string $root, string $filename) : void
     {
         $file_path = $root . DIRECTORY_SEPARATOR . $filename;
         $file_contents = file_get_contents($file_path);
@@ -84,7 +90,7 @@ class RenameReplacer
         file_put_contents($file_path, $file_contents);
     }
 
-    public function run()
+    public function run() : void
     {
         if ($this->get_confirmation()) {
             $this->process_directory($this->config['directory']);
