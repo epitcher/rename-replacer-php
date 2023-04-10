@@ -22,16 +22,21 @@ class RenameReplacer
         echo "WARNING: This script is potentially destructive and may irreversibly modify files in the specified directory and its subdirectories. Do you want to continue?\n";
         echo "We recommend version control be enabled prior to running\n";
         echo "[y/N] > ";
-        $response = trim(fgets(STDIN));
+        $stdin = fgets(STDIN);
+        if(!$stdin) {
+            echo "Failed to understand your response";
+            return false;
+        }
+        $response = trim($stdin);
         return strtolower($response) == 'y';
     }
 
     public function process_directory(string $dir) : void
     {
-        if(empty($dir)) {
+        $entries = scandir($dir);
+        if($entries == false) {
             return;
         }
-        $entries = scandir($dir);
         foreach ($entries as $entry) {
             if ($entry === '.' || $entry === '..' || $entry[0] === '.') {
                 continue;
