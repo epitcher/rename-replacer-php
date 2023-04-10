@@ -2,19 +2,48 @@
 
 namespace epitcher;
 
+use InvalidArgumentException;
+
 class RenameReplacer
 {
     /**
-     * @var array<mixed> $config
+     * @var string directory
      */
-    private array $config;
+    private string $directory;
+
+    /**
+     * @var array<string> $renameFile
+     */
+    private array $renameFile;
+
+    /**
+     * @var array<string> $renameContent
+     */
+    private array $renameContent;
 
     /**
      * @param array<mixed> $config
      */
     public function __construct(array $config)
     {
-        $this->config = $config;
+        $directory = $config['directory'] ?? './tmp_path';
+        if(is_string($directory)) {
+            $this->directory = $directory;
+        }
+        
+        $renameFile = $config['rename_file'] ?? [];
+        if(is_array($renameFile)) {
+            $this->renameFile = $renameFile;
+        } else {
+            throw new InvalidArgumentException("Expected 'rename_file' to be an array.");
+        }
+    
+        $renameContent = $config['replace_content'] ?? [];
+        if(is_array($renameContent)) {
+            $this->renameContent = $renameContent;
+        } else {
+            throw new InvalidArgumentException("Expected 'replace_content' to be an array.");
+        }
     }
 
     public function get_confirmation() : bool
@@ -56,7 +85,7 @@ class RenameReplacer
 
     public function rename_directory(string $root) : string
     {
-        foreach ($this->config['rename_file'] as $key => $value) {
+        foreach ($this->renameFile as $key => $value) {
             if (strpos(basename($root), $key) !== false) {
                 $new_dirname = dirname($root) . DIRECTORY_SEPARATOR . str_replace($key, $value, basename($root));
                 rename($root, $new_dirname);
@@ -68,7 +97,7 @@ class RenameReplacer
 
     public function rename_file(string $root, string $filename) : string
     {
-        foreach ($this->config['rename_file'] as $key => $value) {
+        foreach ($this->renameFile as $key => $value) {
             if (strpos($filename, $key) !== false) {
                 $new_filename = str_replace($key, $value, $filename);
                 rename($root . DIRECTORY_SEPARATOR . $filename, $root . DIRECTORY_SEPARATOR . $new_filename);
@@ -88,7 +117,7 @@ class RenameReplacer
             return;
         }
 
-        foreach ($this->config['replace_content'] as $key => $value) {
+        foreach ($this->renameContent as $key => $value) {
             $file_contents = str_replace($key, $value, $file_contents);
         }
 
@@ -98,7 +127,7 @@ class RenameReplacer
     public function run() : void
     {
         if ($this->get_confirmation()) {
-            $this->process_directory($this->config['directory']);
+            $this->process_directory($this->directory);
         } else {
             echo "Exiting script.\n";
             exit();
