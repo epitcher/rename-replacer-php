@@ -1,3 +1,4 @@
+
 name: phpunit
 
 on: [push]
@@ -11,13 +12,30 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.1" # Replace with the PHP version you are using
-          extensions: mbstring, intl, xml, json, pdo_mysql
+        run: sudo apt-get update && apt-get install php8.1 php8.1-dom php8.1-curl composer -y
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
 
       - name: Run tests
         run: ./vendor/bin/phpunit tests/
+
+
+  phpstan:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up PHP
+      run: sudo apt-get update && apt-get install php8.1 php8.1-dom php8.1-curl composer -y
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
+
+    - name: Install PHPStan
+      run: composer require --dev phpstan/phpstan
+
+    - name: Run PHPStan
+      run: vendor/bin/phpstan analyse
