@@ -1,5 +1,5 @@
 
-name: phpunit
+name: PHP Validation
 
 on: [push]
 
